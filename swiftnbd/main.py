@@ -120,7 +120,10 @@ class Main(object):
 
         stores = dict()
         for container, values in self.conf.iteritems():
-            cli = client.Connection(values['authurl'], values['username'], values['password'])
+            cli = client.Connection(
+                values['authurl'], values['username'], values['password'],
+                auth_version=values['auth_version'],
+                tenant_name=values['tenant_name'])
 
             try:
                 headers, _ = cli.get_container(container)
@@ -159,6 +162,8 @@ class Main(object):
                                              objects,
                                              Cache(int(self.args.cache_limit*1024**2 / object_size)),
                                              values['read-only'].lower() in ('1', 'yes', 'true', 'on'),
+                                             auth_version=values['auth_version'],
+                                             tenant_name=values['tenant_name']
                                             )
 
         addr = (self.args.bind_address, self.args.bind_port)

@@ -45,7 +45,9 @@ class SwiftStorage(object):
     May raise StorageError (IOError).
     """
 
-    def __init__(self, authurl, username, password, container, object_size, objects, cache=None, read_only=False):
+    def __init__(self, authurl, username, password, container, object_size,
+                 objects, cache=None, read_only=False, tenant_name=None,
+                 auth_version='1'):
         self.container = container
         self.object_size = object_size
         self.objects = objects
@@ -61,7 +63,8 @@ class SwiftStorage(object):
         if self.cache is None:
             self.cache = Cache(int(1024**2 / self.object_size))
 
-        self.cli = client.Connection(authurl, username, password)
+        self.cli = client.Connection(authurl, username, password,
+                                     tenant_name=tenant_name, auth_version=auth_version)
 
     def __str__(self):
         return self.container
