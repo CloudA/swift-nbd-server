@@ -127,7 +127,10 @@ class Main(object):
         prev_authurl = None
         for container, values in self.conf.iteritems():
             if prev_authurl or prev_authurl != values['authurl']:
-                cli = client.Connection(values['authurl'], values['username'], values['password'])
+                cli = client.Connection(
+                    values['authurl'], values['username'], values['password'],
+                    auth_version=values['auth_version'],
+                    tenant_name=values['tenant_name'])
 
             try:
                 headers, _ = cli.get_container(container)
@@ -176,7 +179,10 @@ class Main(object):
         self.username = values['username']
         self.password = values['password']
 
-        cli = client.Connection(self.authurl, self.username, self.password)
+        cli = client.Connection(
+            values['authurl'], values['username'], values['password'],
+            auth_version=values['auth_version'],
+            tenant_name=values['tenant_name'])
 
         try:
             headers, _ = cli.get_container(self.args.container)
