@@ -64,7 +64,9 @@ class Server(StreamServer):
     NBD_RO_FLAG = (1 << 1)
 
     def __init__(self, listener, stores):
-        super(Server, self).__init__(listener)
+        def foo():
+            pass
+        super(Server, self).__init__(listener, foo)
 
         self.log = logging.getLogger(__package__)
 
